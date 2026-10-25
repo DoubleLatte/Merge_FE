@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAuth } from '../../auth'
 import { KakaoIcon } from '../../components/icons'
 import { formatDateRange } from '../../components'
@@ -78,7 +78,16 @@ export function HeroCarousel({ events, today }: { events: EventCard[]; today: st
   const { isLoggedIn } = useAuth()
   const { openEvent } = useEventActions()
   const [index, setIndex] = useState(0)
+  const [paused, setPaused] = useState(false)
   const slides = events.slice(0, 3)
+  const count = slides.length
+
+  // 5초마다 다음 배너로 넘긴다. 마우스를 올리거나 키보드 포커스가 있으면 멈춘다.
+  useEffect(() => {
+    if (count < 2 || paused) return
+    const t = window.setInterval(() => setIndex((n) => (n + 1) % count), 5000)
+    return () => window.clearInterval(t)
+  }, [count, paused])
   if (slides.length === 0) return isLoggedIn ? null : (
     <div className="grid grid-cols-2 gap-4 pt-[18px]">
       <SignupBanner />
@@ -87,9 +96,28 @@ export function HeroCarousel({ events, today }: { events: EventCard[]; today: st
   const i = Math.min(index, slides.length - 1)
   const left = slides[i]
   const right = isLoggedIn ? slides[(i + 1) % slides.length] : null
+  const go = (delta: number) => setIndex((i + delta + count) % count)
+  const arrow =
+    'absolute top-1/2 z-10 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[20px] font-bold text-ink shadow-float hover:bg-white'
   return (
-    <div className="pt-[18px]">
-      <div className="grid grid-cols-2 gap-4">
+    <div
+      className="pt-[18px]"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocus={() => setPaused(true)}
+      onBlur={() => setPaused(false)}
+    >
+      <div className="relative grid grid-cols-2 gap-4">
+        {count > 1 && (
+          <>
+            <button type="button" aria-label="이전 배너" onClick={() => go(-1)} className={`${arrow} -left-5`}>
+              ‹
+            </button>
+            <button type="button" aria-label="다음 배너" onClick={() => go(1)} className={`${arrow} -right-5`}>
+              ›
+            </button>
+          </>
+        )}
         <HeroEvent event={left} today={today} onOpen={() => openEvent(left)} />
         {right && right.id !== left.id ? <HeroEvent event={right} today={today} onOpen={() => openEvent(right)} /> : <SignupBanner />}
       </div>
