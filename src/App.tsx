@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Layout from './layout/Layout'
+import RequireLogin from './layout/RequireLogin'
 import { Spinner } from './components'
 
 const Home = lazy(() => import('./pages/Home'))
@@ -23,18 +24,21 @@ export default function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="events" element={<EventList />} />
-          <Route path="events/:id" element={<EventDetail />} />
-          <Route path="events/:id/directions" element={<Directions />} />
-          <Route path="calendar" element={<Calendar />} />
-          <Route path="map" element={<MapPage />} />
+          {/* 홈과 로그인 화면 밖은 로그인해야 들어갈 수 있다. */}
+          <Route element={<RequireLogin />}>
+            <Route path="events" element={<EventList />} />
+            <Route path="events/:id" element={<EventDetail />} />
+            <Route path="events/:id/directions" element={<Directions />} />
+            <Route path="calendar" element={<Calendar />} />
+            <Route path="map" element={<MapPage />} />
+            <Route path="my" element={<MyBookmarks />} />
+            <Route path="my/bookmarks" element={<MyBookmarks />} />
+            <Route path="my/reviews" element={<MyReviews />} />
+            <Route path="my/profile" element={<MyProfile />} />
+          </Route>
           <Route path="auth/login" element={<Login />} />
           <Route path="auth/kakao/callback" element={<KakaoCallback />} />
           <Route path="auth/terms" element={<Terms />} />
-          <Route path="my" element={<MyBookmarks />} />
-          <Route path="my/bookmarks" element={<MyBookmarks />} />
-          <Route path="my/reviews" element={<MyReviews />} />
-          <Route path="my/profile" element={<MyProfile />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

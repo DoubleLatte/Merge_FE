@@ -2,7 +2,7 @@ import { useCallback, type ReactNode } from 'react'
 import { Modal } from '../components'
 import { formatDateRange } from '../components'
 import { CalendarIcon, HeartIcon, KakaoIcon } from '../components/icons'
-import { buildKakaoAuthorizeUrl, clearPendingBookmark } from '../auth'
+import { buildKakaoAuthorizeUrl, clearPendingBookmark, consumeReturnTo } from '../auth'
 import { setLoginPromptEvent, useLoginPromptEvent } from './loginPromptStore'
 
 interface Props {
@@ -44,6 +44,7 @@ export function LoginPromptModal({ open, onClose }: Props) {
   const close = useCallback(() => {
     setLoginPromptEvent(null)
     clearPendingBookmark()
+    consumeReturnTo() // 로그인하지 않고 닫으면 저장해 둔 이동 경로도 버린다
     onClose()
   }, [onClose])
 
