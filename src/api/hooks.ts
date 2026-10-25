@@ -37,6 +37,26 @@ export function useSidos() {
 }
 export const useEvents = (params: EventListParams = {}, options: { enabled?: boolean } = {}) =>
   useQuery({ queryKey: qk.events(params), queryFn: () => getEvents(params), placeholderData: keepPreviousData, ...options })
+/**
+ * 필터 없는 목록을 모든 페이지에 걸쳐 받아 합친다(홈 화면용, 최대 maxPages 페이지).
+ * 한 번에 받을 수 있는 최대 size(100)를 넘는 행사도 홈의 섹션 분류에 포함하기 위함이다.
+ */
+export function useAllEvents(sort: EventListParams['sort'] = 'dateAsc', maxPages = 5) {
+  return useQuery({
+    queryKey: ['events', 'all', sort, maxPages] as const,
+    queryFn: async () => {
+      const events: EventCard[] = []
+      let total = 0
+      for (let page = 1; page <= maxPages; page++) {
+        const res = await getEvents({ page, size: 100, sort })
+        total = res.total_count
+        events.push(...res.events)
+        if (res.events.length === 0 || events.length >= total) break
+      }
+      return { total_count: total, events }
+    },
+  })
+}
 export const useMonthlyTop = (params: { month?: string; size?: number } = {}) =>
   useQuery({ queryKey: qk.monthlyTop(params.month, params.size), queryFn: () => getMonthlyTop(params) })
 /** JWT 필요 */

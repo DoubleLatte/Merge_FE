@@ -20,6 +20,13 @@ export function isOnDate(e: EventCard, date: string): boolean {
 export function isOnAnyDate(e: EventCard, dates: string[]) {
   return dates.some((d) => isOnDate(e, d))
 }
+/** 90일을 넘게 이어지는 상시 행사(BE의 is_permanent 기준과 같다) */
+export function isLongRunning(e: EventCard): boolean {
+  const s = day(e.start_date)
+  const en = day(e.end_date)
+  if (!s || !en) return false
+  return (new Date(en).getTime() - new Date(s).getTime()) / 86_400_000 > 90
+}
 /** 오늘 이후에도 계속되는(또는 아직 시작 전인) 행사 */
 export function isUpcomingOrOngoing(e: EventCard, today: string) {
   const en = day(e.end_date) ?? day(e.start_date)
