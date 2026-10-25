@@ -1,0 +1,26 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icon" clip-path="url(#clip0_0_33)">
+<path id="Vector" d="M24 6C12 6 4 13.5 4 23C4 32.5 12 40 22 40C25.5 40 26 37.5 25 35.5C23.8 33.1 25.3 31 28 31H33C39 31 44 27 44 21C44 12 35 6 24 6Z" fill="url(#paint0_linear_0_33)"/>
+<path id="Vector_2" d="M14 21.4C15.8778 21.4 17.4 19.8778 17.4 18C17.4 16.1222 15.8778 14.6 14 14.6C12.1222 14.6 10.6 16.1222 10.6 18C10.6 19.8778 12.1222 21.4 14 21.4Z" fill="#F0562C"/>
+<path id="Vector_3" d="M23 16.4C24.8778 16.4 26.4 14.8778 26.4 13C26.4 11.1222 24.8778 9.6 23 9.6C21.1222 9.6 19.6 11.1222 19.6 13C19.6 14.8778 21.1222 16.4 23 16.4Z" fill="#FFC93C"/>
+<path id="Vector_4" d="M32.5 19.4C34.3778 19.4 35.9 17.8778 35.9 16C35.9 14.1222 34.3778 12.6 32.5 12.6C30.6222 12.6 29.1 14.1222 29.1 16C29.1 17.8778 30.6222 19.4 32.5 19.4Z" fill="#3CCB9A"/>
+<path id="Vector_5" d="M12.5 31.4C14.3778 31.4 15.9 29.8778 15.9 28C15.9 26.1222 14.3778 24.6 12.5 24.6C10.6222 24.6 9.1 26.1222 9.1 28C9.1 29.8778 10.6222 31.4 12.5 31.4Z" fill="#6CB8FF"/>
+<g id="Vector_6">
+<path d="M30 41L41.5 26.5Z" fill="black"/>
+<path d="M30 41L41.5 26.5" stroke-width="3" stroke-linecap="round" stroke="#8A5A3C"/>
+</g>
+<g id="Vector_7">
+<path d="M41.5 26.5L44.5 22.5Z" fill="black"/>
+<path d="M41.5 26.5L44.5 22.5" stroke-width="4" stroke-linecap="round" stroke="#8C6CFF"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_33" x1="4" y1="6" x2="37.5559" y2="45.4775" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FFE2D3"/>
+<stop offset="1" stop-color="#FFC6AC"/>
+</linearGradient>
+<clipPath id="clip0_0_33">
+<rect width="44" height="44" fill="white"/>
+</clipPath>
+</defs>
+</svg>
