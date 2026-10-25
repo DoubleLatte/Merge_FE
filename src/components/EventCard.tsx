@@ -139,12 +139,20 @@ export function EventCard({
             )}
           </div>
         )}
-        {hasRating && (
+        {(hasRating || event.view_count != null) && (
           <p className="flex items-center gap-[3px] pt-[3px] text-[12px] leading-[18px] text-ink-muted">
-            <StarIcon className="text-star" />
-            <b className="font-bold text-ink">{event.rating!.toFixed(1)}</b>
-            {event.review_count != null && <span>({event.review_count.toLocaleString('ko-KR')})</span>}
-            {event.view_count != null && <span>· 조회 {compactCount(event.view_count)}</span>}
+            {hasRating && (
+              <>
+                <StarIcon className="text-star" />
+                <b className="font-bold text-ink">{event.rating!.toFixed(1)}</b>
+                {event.review_count != null && <span>({event.review_count.toLocaleString('ko-KR')})</span>}
+              </>
+            )}
+            {event.view_count != null && (
+              <span>
+                {hasRating ? '· ' : ''}조회 {compactCount(event.view_count)}
+              </span>
+            )}
           </p>
         )}
       </div>
