@@ -1,0 +1,20 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icon">
+<path id="Vector" d="M39 8H9C6.79086 8 5 9.79086 5 12V36C5 38.2091 6.79086 40 9 40H39C41.2091 40 43 38.2091 43 36V12C43 9.79086 41.2091 8 39 8Z" fill="#E9A23B"/>
+<path id="Vector_2" d="M9 8H39C41.2091 8 43 9.79086 43 12V36C43 38.2091 41.2091 40 39 40H9C6.79086 40 5 38.2091 5 36V12C5 9.79086 6.79086 8 9 8Z" stroke-width="1.2" stroke="#C47F1E"/>
+<path id="Vector_3" d="M36 13H12C10.8954 13 10 13.8954 10 15V33C10 34.1046 10.8954 35 12 35H36C37.1046 35 38 34.1046 38 33V15C38 13.8954 37.1046 13 36 13Z" fill="url(#paint0_linear_0_63)"/>
+<path id="Vector_4" d="M31 22.2C32.7673 22.2 34.2 20.7673 34.2 19C34.2 17.2327 32.7673 15.8 31 15.8C29.2327 15.8 27.8 17.2327 27.8 19C27.8 20.7673 29.2327 22.2 31 22.2Z" fill="#FFD84D"/>
+<path id="Vector_5" d="M10 33L18 24L23 29L27 25.5L38 33V35H10V33Z" fill="#3CCB9A"/>
+<path id="Vector_6" opacity="0.6" d="M10 35L18 26L24 32L28 29L38 35V37L10 35Z" fill="#22A87B"/>
+<g id="Vector_7" opacity="0.6">
+<path d="M8 11.5H14Z" fill="black"/>
+<path d="M8 11.5H14" stroke-width="1.6" stroke-linecap="round" stroke="white"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_63" x1="10" y1="13" x2="10" y2="35" gradientUnits="userSpaceOnUse">
+<stop stop-color="#9FD3FF"/>
+<stop offset="1" stop-color="#5AA8F5"/>
+</linearGradient>
+</defs>
+</svg>
