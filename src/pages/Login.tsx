@@ -1,11 +1,12 @@
 import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useCategories, useEvents, useMonthlyTop } from '../api/hooks'
 import { useAuth } from '../auth'
 import { CheckIcon, KakaoIcon } from '../components/icons'
 import { AuthScreen } from './home/AuthScreen'
 import { startKakaoLogin } from './home/kakaoLogin'
 
-interface Tile { en: string; ko: string; g: string }
+interface Tile { en: string; ko: string; g: string; img?: string | null }
 const G = {
   fest: 'linear-gradient(156deg,#e8461c 8.5%,#f7a04b 91.5%)',
   plum: 'linear-gradient(156deg,#7a2257 8.5%,#e87a9a 91.5%)',
@@ -39,11 +40,30 @@ const COLUMNS: Tile[][] = [
 ]
 const OFFSETS = ['0px', '-120px', '-40px']
 
+const GRADIENTS = Object.values(G)
+
+/** 실제 인기 행사 사진으로 콜라주를 채운다. 모자라거나 사진이 없으면 기본 그라디언트 타일로 채운다. */
+function useColumns(): Tile[][] {
+  const { data } = useMonthlyTop({ size: 12 })
+  const events = data?.events ?? []
+  if (events.length < 6) return COLUMNS
+  const tiles: Tile[] = events.map((e, i) => ({
+    en: e.category ?? '',
+    ko: e.title,
+    g: GRADIENTS[i % GRADIENTS.length],
+    img: e.thumbnail_url,
+  }))
+  const cols: Tile[][] = [[], [], []]
+  tiles.forEach((t, i) => cols[i % 3].push(t))
+  return cols
+}
+
 function Collage() {
+  const columns = useColumns()
   return (
     <div aria-hidden className="absolute -left-[101px] -top-[113px] flex h-[1047px] w-[957px] items-center justify-center">
       <div className="grid w-[834px] -rotate-[8deg] grid-cols-3 gap-[14px] opacity-95">
-        {COLUMNS.map((col, ci) => (
+        {columns.map((col, ci) => (
           <div key={ci} className="flex flex-col gap-[14px]" style={{ marginTop: OFFSETS[ci] }}>
             {[...col, ...col].map((t, i) => (
               <div
@@ -51,6 +71,8 @@ function Collage() {
                 className="relative h-[358px] shrink-0 overflow-hidden rounded-[14px] text-white shadow-[0_8px_24px_rgba(0,0,0,0.18)]"
                 style={{ background: t.g }}
               >
+                {t.img && <img src={t.img} alt="" loading="lazy" className="absolute inset-0 size-full object-cover" />}
+                {t.img && <span className="absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-transparent" />}
                 <div className="absolute left-[14px] top-[15px] w-[241px]">
                   <p className="font-display text-[10.5px] font-extrabold leading-[12.8px] tracking-[1.05px] opacity-85">{t.en}</p>
                   <p className="whitespace-pre-line pt-1 text-[17px] font-black leading-[20.7px] tracking-[-0.34px]">{t.ko}</p>
@@ -64,15 +86,21 @@ function Collage() {
   )
 }
 
-const STATS = [
-  ['1,284', '진행 중·예정 행사'],
-  ['17', '전국 시·도'],
-  ['5', '행사 분류'],
-]
+/** 로그인 화면 하단 숫자는 실제 데이터에서 가져온다(행사 수, 시·도 수는 BE 시드 기준 16, 분류 수). */
+function useStats(): string[][] {
+  const total = useEvents({ page: 1, size: 1 }).data?.total_count
+  const categories = useCategories().data?.length
+  return [
+    [total != null ? total.toLocaleString() : '-', '진행 중·예정 행사'],
+    ['16', '전국 시·도'],
+    [categories != null ? String(categories) : '-', '행사 분류'],
+  ]
+}
 
 export default function Login() {
   const { isLoggedIn } = useAuth()
   const navigate = useNavigate()
+  const stats = useStats()
   useEffect(() => {
     if (isLoggedIn) navigate('/', { replace: true })
   }, [isLoggedIn, navigate])
@@ -98,7 +126,7 @@ export default function Login() {
             </h2>
             <p className="pt-2 text-[15px] leading-[22.5px] opacity-90">전국 축제 · 전시 · 공연 · 체험을 한곳에서</p>
             <div className="mt-6 flex gap-7 border-t border-white/30 pt-5">
-              {STATS.map(([n, l]) => (
+              {stats.map(([n, l]) => (
                 <div key={l}>
                   <p className="font-display text-[26px] font-black leading-[39px]">{n}</p>
                   <p className="text-[12px] leading-[18px] opacity-85">{l}</p>
